@@ -1,6 +1,6 @@
 # Welcome {#sec-intro .unnumbered}
 
-This site provides material presented at the PNW Tribal Coding Retreat in March 2025. Slides that accompany this workshop are available for download [linked here](https://github.com/mhweber/Tribal-Coding-Retreat/blob/main/slides.html) by clicking the "Download raw file" button via the ellipsis or downward arrow symbol on the right side of the screen.
+This site provides material presented at the PNW Tribal Coding Retreat in March 2025. Slides that accompany this workshop are available for download [linked here](https://github.com/mhweber/PNW-Tribal-Coding-Retreat/blob/main/slides.html) by clicking the "Download raw file" button via the ellipsis or downward arrow symbol on the right side of the screen.
 
 Material here is borrowed from a half-day workshop presented to the EPA R User Group meeting in 2023 - the particular sections we'll focus on are:
 
