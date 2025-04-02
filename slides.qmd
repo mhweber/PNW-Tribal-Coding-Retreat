@@ -876,7 +876,7 @@ Projections are important!
 #| warning: false
 library(tidycensus)
 library(cowplot)
-mult_tracts <- get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE) 
+mult_tracts <- tidycensus::get_acs(state='OR',county='Multnomah',geography='tract', variables=c('B19013_001','B16010_028','B01003_001'), geometry=TRUE)  
 
 # tidy data
 mult_wide <- mult_tracts |> 
@@ -900,7 +900,6 @@ mult_wide <- mult_wide |>
 #| label: fig-medianmc
 #| fig-cap: "Median income in Multnomah County."
 #| fig-width: 8
-#| results: hide
 #| message: false
 #| warning: false
 #| output-location: slide
@@ -920,7 +919,6 @@ mult_wide |>
 #| label: fig-collegemc
 #| fig-cap: "Percent college degree in Multnomah County."
 #| fig-width: 8
-#| results: hide
 #| message: false
 #| warning: false
 #| output-location: slide

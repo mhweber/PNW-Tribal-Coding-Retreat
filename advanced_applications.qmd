@@ -45,7 +45,7 @@ You can read a concise background on using web services in R [here](https://mhwe
 corvallis <- nhdplusTools::get_nhdplus(AOI::aoi_ext(geo = "Corvallis, OR", wh = 10000, bbox = TRUE), realization = "all")
 # get stream gages too
 corvallis$gages <- nhdplusTools::get_nwis(AOI::aoi_ext(geo = "Corvallis, OR", wh = 10000, bbox = TRUE))
-mapview(corvallis)
+mapview::mapview(corvallis)
 ```
 
 Pretty cool.  All that data in two lines!
