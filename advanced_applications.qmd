@@ -59,14 +59,45 @@ SouthSantiam <- nhdplusTools::navigate_nldi(nldi_feature,  mode = "upstreamTribu
 basin <- nhdplusTools::get_nldi_basin(nldi_feature = nldi_feature)
 
 gages <- nhdplusTools::get_nwis(basin)
-mapview(SouthSantiam, legend=FALSE) + mapview(basin) + mapview(gages)
+mapview::mapview(SouthSantiam, legend=FALSE) + mapview::mapview(basin) + mapview::mapview(gages)
 ```
 
 Notice we pulled in some stream gages within the **bounding box** of our basin but not within the watershed - let's fix that with `st_intersection`:
 ```{r}
 #| warning: false
 gages <- sf::st_intersection(gages, basin)
-mapview(SouthSantiam, legend=FALSE) + mapview(basin) + mapview(gages)
+mapview::mapview(SouthSantiam, legend=FALSE) + mapview::mapview(basin) + mapview::mapview(gages)
+```
+
+We can also 'reference' sites with coordinates to the NHD network and pull in watershed information this way.  
+
+Typically we might read in a .csv file with coordinates for sample locations - in this case we'll just construct a data frame of one sample location with coordinates, and then we can use `sc_get_comid` from `StreamCatTools` (which leverages a function from `nhdplusTools` and `dataRetrieval`).
+```{r}
+SampleSite <- data.frame(Site='SouthSantiamSite1', 
+                               Lon=-122.705,
+                               Lat=44.413) |> 
+  sf::st_as_sf(coords = c("Lon", "Lat"), crs = 4269, remove = FALSE)
+dplyr::glimpse(SampleSite)
+
+Site_COMID <- StreamCatTools::sc_get_comid(SampleSite)
+```
+
+Now we can use `nhdplusTools` to ask for the same suite of watershed data using the NHD Identifier COMID that we just got using `sc_get_comid`
+```{r}
+nldi_feature <- list(featureSource = "comid", 
+                     featureID = as.numeric(Site_COMID))
+SouthSantiam <- nhdplusTools::navigate_nldi(nldi_feature,  mode = "upstreamTributaries", distance_km=100)
+basin <- nhdplusTools::get_nldi_basin(nldi_feature = nldi_feature)
+
+gages <- nhdplusTools::get_nwis(basin)
+mapview::mapview(SouthSantiam, legend=FALSE) + mapview::mapview(basin) + mapview::mapview(gages)
+```
+
+We can also bring in HUC data as a service for our South Santiam basin:
+
+```{r}
+santiam_huc <- nhdplusTools::get_huc(basin, type = 'huc12')
+mapview::mapview(SouthSantiam, legend=FALSE) + mapview::mapview(basin) + mapview::mapview(gages) + mapview::mapview(santiam_huc)
 ```
 
 Now we'll grab stream flow data for our watershed with `dataRetrieval`:
